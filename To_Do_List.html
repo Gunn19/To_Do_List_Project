@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple To-Do App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .completed { text-decoration: line-through; color: gray; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-gray-300 min-h-screen flex justify-center items-start pt-12">
+    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-6">
+        <h1 class="text-2xl font-semibold text-gray-800 mb-4">To-Do List</h1>
+        <input type="text" id="todo-input" placeholder="Add task..." class="w-full rounded-md border-gray-300 focus:ring-2 focus:ring-blue-500 p-2 mb-3">
+        <ul id="todo-list" class="space-y-2"></ul>
+        <button id="add-button" class="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Add</button>
+    </div>
+
+    <script>
+        const input = document.getElementById('todo-input');
+        const addButton = document.getElementById('add-button');
+        const list = document.getElementById('todo-list');
+
+        addButton.addEventListener('click', () => {
+            const task = input.value.trim();
+            if (task) {
+                const item = document.createElement('li');
+                item.className = "flex items-center justify-between bg-gray-50 p-3 rounded-lg";
+                const checkbox = document.createElement('input');
+                checkbox.type = "checkbox";
+                checkbox.className = "mr-2 rounded-md text-blue-500 focus:ring-blue-500 h-5 w-5";
+                checkbox.addEventListener('change', () => item.classList.toggle('completed'));
+                item.appendChild(checkbox);
+                const span = document.createElement('span');
+                span.textContent = task;
+                span.className = "flex-grow";
+                item.appendChild(span);
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'X';
+                deleteButton.className = "p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 text-gray-400 hover:text-red-500";
+                deleteButton.addEventListener('click', () => item.remove());
+                item.appendChild(deleteButton);
+                list.appendChild(item);
+                input.value = '';
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') addButton.click();
+        });
+    </script>
+</body>
+</html>
